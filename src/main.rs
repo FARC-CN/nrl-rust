@@ -1,8 +1,10 @@
+extern crate lazy_static;
 use std::env;
 use std::net::{SocketAddr, UdpSocket};
 use std::time::{Duration, SystemTime};
 use std::collections::HashMap;
 use std::sync::Mutex;
+use std::convert::TryInto;
 use lazy_static::lazy_static;
 
 const DEBUG: bool = false;
@@ -10,7 +12,7 @@ const CTIMEOUT: Duration = Duration::from_secs(100);
 const MAXLEN: usize = 1460;
 const CPUIDLEN: usize = 7;
 const MAXCLIENTS: usize = 1000;
-const VERSION: [u32; 3] = [1, 0, 0];
+const VERSION: [u32; 3] = [1, 0, 1];
 const IP: &str = "[::]";
 const DEFAULT_PORT: u16 = 60050;
 
@@ -95,7 +97,7 @@ fn main() {
 
     let bind_addr = &format!("{}:{}", IP, port);
     let socket = UdpSocket::bind(bind_addr).expect("[Error] Couldn't bind to address");
-    println!("[Info] NRL2730-Rust {}.{}.{} server is running on {}", VERSION[0], VERSION[1], VERSION[2], bind_addr);
+    println!("[Info] NRL-Rust {}.{}.{} server is running on {}", VERSION[0], VERSION[1], VERSION[2], bind_addr);
 
     let mut buf = [0u8; MAXLEN];
     
